@@ -1,0 +1,52 @@
+name: Staging-Deploy
+
+on:
+    push:
+        branches-ignore:
+            - "main"
+        paths:
+            - "**"
+    workflow_dispatch:
+        branches-ignore:
+            - "main"
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        env:
+            TZ: "Asia/Tokyo"
+        steps:
+            - name: Setup repository
+              uses: actions/checkout@v3
+
+            - name: Initialize
+              uses: ./.github/actions/initialize
+
+            - name: Test
+              run: |
+                  npm run test
+
+    deploy:
+        needs: test
+        runs-on: ubuntu-latest
+
+        env:
+            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+            ID_TOKEN: ${{ secrets.ID_TOKEN }}
+            REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+            CLIENT_ID: ${{ secrets.CLIENT_ID }}
+            CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+            SCRIPT_ID: ${{ secrets.STAGING_SCRIPT_ID }}
+            DEPLOYMENT_ID: ${{ secrets.STAGING_DEPLOYMENT_ID }}
+            ENV_NAME: "Staging"
+
+        steps:
+            - name: Setup repository
+              uses: actions/checkout@v3
+
+            - name: Initialize
+              uses: ./.github/actions/initialize
+
+            - name: DEPLOY
+              run: |
+                  npm run deploy
