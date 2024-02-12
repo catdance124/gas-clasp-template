@@ -29,7 +29,6 @@ jobs:
     deploy:
         needs: test
         runs-on: ubuntu-latest
-        if: ${{ secrets.ACCESS_TOKEN && secrets.ID_TOKEN && secrets.REFRESH_TOKEN && secrets.CLIENT_ID && secrets.CLIENT_SECRET && secrets.STAGING_SCRIPT_ID && secrets.STAGING_DEPLOYMENT_ID }}
 
         env:
             ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -49,5 +48,6 @@ jobs:
               uses: ./.github/actions/initialize
 
             - name: DEPLOY
+              if: ${{ env.DEPLOYMENT_ID }}
               run: |
                   npm run deploy
