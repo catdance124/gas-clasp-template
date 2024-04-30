@@ -13,7 +13,9 @@ $ npm run test
 $ npm run build
 ```
 
-デプロイ
+プッシュ&デプロイ
+
+変数は[こちら](https://qiita.com/shunexe/items/fdf0def390a160d044c3)を参照
 
 ```sh
 # デプロイするアカウントでログイン（~/.clasprc.json を作成）
@@ -33,6 +35,7 @@ $ npm run push
 Pushed 2 files.
 
 # ビルド&プッシュ&デプロイ
+$ npm run deploy
 Created version 600.
 - ************ @600.
 ```
